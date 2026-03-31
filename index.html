@@ -6,9 +6,9 @@
     <title>Kanban</title>
     <style>
         body{
+            background-color: #747171;
             justify-content: center;
             align-items: center;
-            
         }
         .cabecalho{
             background:linear-gradient(to right,rgb(54, 54, 56),rgb(223, 219, 228)) ;
@@ -49,6 +49,13 @@
             justify-content: space-around;
             margin-top: 20px;
         }
+                .container div{
+            border: 2px solid #333;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            flex: 1; /* mantém as colunas iguais */
+        }
         ul{
             list-style: none;
             padding: 0;
@@ -57,12 +64,13 @@
             background: #eeee;
             margin: 5px;
             padding: 10px;
-            
+            cursor: pointer;
         }
     </style>
 </head>
+
 <script>
-    function addTask() {
+function addTask() {
   const input = document.getElementById("taskInput");
   const taskText = input.value;
 
@@ -74,36 +82,49 @@
   const li = document.createElement("li");
   li.textContent = taskText;
 
+  // Primeiro clique: vai para "Em andamento"
   li.onclick = function () {
-    document.getElementById("conclusaolist").appendChild(li);
+    if (li.parentElement.id === "coisaslist") {
+      document.getElementById("andamentolist").appendChild(li);
+    } 
+    // Segundo clique: vai para "Concluído"
+    else if (li.parentElement.id === "andamentolist") {
+      document.getElementById("conclusaolist").appendChild(li);
+    }
   };
 
   document.getElementById("coisaslist").appendChild(li);
   input.value = "";
 }
 </script>
+
 <body>
     
     <header class="cabecalho">
         <h1>Gerenciador de Tarefas </h1>
     </header>
     <br>
+
     <input class="juliano" type="text" id="taskInput" placeholder="Nova Tarefa ">
     <button onclick="addTask()">Adicionar</button>
     <br>
+
     <div class="container">
         <div>
             <h2>A fazer</h2>
             <ul id="coisaslist"></ul>
         </div>
 
+        <div>
+            <h2>Em andamento</h2>
+            <ul id="andamentolist"></ul>
+        </div>
 
-         <div>
+        <div>
             <h2>Concluido</h2>
             <ul id="conclusaolist"></ul>
         </div>
     </div>
-    
 
 </body>
 </html>
